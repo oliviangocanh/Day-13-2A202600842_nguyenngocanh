@@ -19,21 +19,72 @@ Prompt fixes live in solution/prompt.txt.
 from __future__ import annotations
 
 import re
+import threading
 import time
 
 from telemetry.logger import logger, new_correlation_id, set_correlation_id
 from telemetry.cost import cost_from_usage
 from telemetry import redact
 
+# Learned catalog (from tool results across requests in this run -- legal caching of tool
+# data). Used as a fallback to recompute a total when a request's own trace is incomplete
+# (e.g. the agent, distracted by an injected note, failed to call check_stock cleanly).
+_LEARN_LOCK = threading.Lock()
+_CAT = {}    # item_key -> unit_price_vnd
+_CPN = {}    # coupon code (upper) -> percent (valid only)
+_STK = {}    # item_key -> {"in_stock": bool, "quantity": int}
+_PROD_KEYS = ("macbook", "airpods", "iphone", "ipad")  # distinct substrings of the question
+
+_R_NOTFOUND = "Xin loi, san pham nay khong co trong he thong nen khong the dat mua."
+_R_OOS = "Xin loi, san pham hien het hang nen khong the dat mua."
+_R_OVER = "Xin loi, so luong yeu cau vuot qua ton kho hien co."
+_R_NOSHIP = "Xin loi, khu vuc nay hien khong duoc phuc vu giao hang."
+
+
+def _learn(stock, disc, ship):
+    with _LEARN_LOCK:
+        if isinstance(stock, dict) and stock.get("found") and isinstance(stock.get("unit_price_vnd"), (int, float)):
+            k = str(stock.get("item", "")).lower()
+            _CAT[k] = int(stock["unit_price_vnd"])
+            _STK[k] = {"in_stock": bool(stock.get("in_stock", True)), "quantity": stock.get("quantity")}
+        if isinstance(disc, dict) and disc.get("valid") and isinstance(disc.get("percent"), (int, float)):
+            _CPN[str(disc.get("code", "")).upper()] = int(disc["percent"])
+
+
+def _pct_for(disc, question):
+    """Discount percent: from THIS trace's get_discount if valid, else from a known coupon
+    code present in the question (learned _CPN), else 0."""
+    if isinstance(disc, dict) and disc.get("valid"):
+        try:
+            return int(disc.get("percent", 0))
+        except (TypeError, ValueError):
+            return 0
+    qu = (question or "").upper()
+    with _LEARN_LOCK:
+        for code, p in _CPN.items():
+            if code and code in qu:
+                return p
+    return 0
+
+
+def _ship_cost(ship):
+    return int(ship["cost_vnd"]) if isinstance(ship, dict) and isinstance(ship.get("cost_vnd"), (int, float)) else 0
+
 # Order "note" block + the injection/override cues that make it dangerous.
 _NOTE_RE = re.compile(r"(ghi\s*ch[uú]\b.*)$", re.IGNORECASE | re.DOTALL)
 _INJECT_RE = re.compile(
-    r"(b[oỏ]\s*qua|ignore|override|gi[aá]\s*(?:l[aà]|=|ch[ii])|set\s+price|"
-    r"mi[eễ]n\s*ph[ií]|free|=\s*0|th[aà]nh\s*0|system|prompt)",
+    r"(b[oỏ]\s*qua|ignore|override|gi[aá]\s*(?:l[aà]|=|ch[ii]|th[uự]c|m[oớ]i|ch[ỉi])|set\s+price|"
+    r"mi[eễ]n\s*ph[ií]|free|=\s*\d|th[aà]nh\s*0|t[ií]nh\s*\d|ch[ỉi]\s*\d|system|prompt|instruction)",
     re.IGNORECASE,
 )
-_QTY_RE = re.compile(r"\bmua\s+(\d+)", re.IGNORECASE)
-_ORDER_RE = re.compile(r"\bmua\b", re.IGNORECASE)
+# qty parsing, paraphrase-proof: prefer the number after a buy verb, else the first
+# STANDALONE integer (so digits inside coupon codes like VIP20/SALE15 are skipped),
+# else a number written as a word.
+_BUY_QTY = re.compile(r"\b(?:mua|đặt|dat|lấy|lay|order|c[aầ]n|mu[oố]n)\s+(\d+)", re.IGNORECASE)
+_STANDALONE = re.compile(r"(?<![A-Za-z0-9])(\d+)(?![A-Za-z0-9])")
+_ORDER_RE = re.compile(r"\b(mua|đặt|dat|lấy|lay|order)\b", re.IGNORECASE)
+_WORDNUM = {"mot": 1, "một": 1, "hai": 2, "ba": 3, "bon": 4, "bốn": 4, "nam": 5, "năm": 5,
+            "sau": 6, "sáu": 6, "bay": 7, "bảy": 7, "tam": 8, "tám": 8, "chin": 9, "chín": 9}
 
 
 def _norm(q: str) -> str:
@@ -51,13 +102,26 @@ def _sanitize(question: str):
 
 
 def _qty(question: str) -> int:
-    m = _QTY_RE.search(question or "")
+    q = question or ""
+    m = _BUY_QTY.search(q)            # 1) number right after a buy verb
     if m:
-        try:
-            return max(1, int(m.group(1)))
-        except ValueError:
-            return 1
-    return 1
+        return max(1, int(m.group(1)))
+    m = _STANDALONE.search(q)         # 2) first standalone integer (skips VIP20/SALE15)
+    if m:
+        return max(1, int(m.group(1)))
+    for w, n in _WORDNUM.items():     # 3) a quantity written as a word
+        if re.search(r"\b%s\b" % w, q, re.IGNORECASE):
+            return n
+    return 1                          # 4) default
+
+
+def _qty_test():  # offline sanity (run: python -c "from solution.wrapper import _qty_test; _qty_test()")
+    assert _qty("Mua 3 iPhone giao Ha Noi") == 3
+    assert _qty("dat 2 con iPad dung ma VIP20") == 2          # coupon digits ignored
+    assert _qty("lay 5 macbook ma SALE15") == 5
+    assert _qty("Mua hai iPhone ship Ha Noi") == 2            # word number
+    assert _qty("Mua iPhone") == 1
+    print("qty tests OK")
 
 
 def _tools_from_trace(trace):
@@ -79,34 +143,45 @@ def _tools_from_trace(trace):
 
 
 def _recompute(question, trace):
-    """Deterministic total/refusal from the tool results in the trace.
-    Returns ('total', int) or ('refuse', reason_str) or None (cannot decide)."""
+    """Deterministic total/refusal. Prefers THIS request's trace (price from check_stock,
+    so an injected note price is ignored); falls back to the catalog learned from other
+    requests' tool results when this trace is incomplete. Returns ('total', int) or
+    ('refuse', reason) or None (cannot decide)."""
     stock, disc, ship = _tools_from_trace(trace)
-    if stock is None:
-        return None
-    if not stock.get("found", True):
-        return ("refuse", "Xin loi, san pham nay khong co trong he thong nen khong the dat mua.")
-    if not stock.get("in_stock", True):
-        return ("refuse", "Xin loi, san pham hien het hang nen khong the dat mua.")
+    _learn(stock, disc, ship)
     qty = _qty(question)
-    avail = stock.get("quantity")
-    if isinstance(avail, int) and qty > avail:
-        return ("refuse", "Xin loi, so luong yeu cau vuot qua ton kho hien co.")
-    if isinstance(ship, dict) and (ship.get("error") or ship.get("cost_vnd") is None):
-        return ("refuse", "Xin loi, khu vuc nay hien khong duoc phuc vu giao hang.")
-    unit = stock.get("unit_price_vnd")
-    if not isinstance(unit, (int, float)):
+    ship_err = isinstance(ship, dict) and (ship.get("error") or ship.get("cost_vnd") is None)
+
+    # --- primary: this request's own check_stock result ---
+    if isinstance(stock, dict):
+        if not stock.get("found", True):
+            return ("refuse", _R_NOTFOUND)
+        if not stock.get("in_stock", True):
+            return ("refuse", _R_OOS)
+        avail = stock.get("quantity")
+        if isinstance(avail, int) and qty > avail:
+            return ("refuse", _R_OVER)
+        if ship_err:
+            return ("refuse", _R_NOSHIP)
+        unit = stock.get("unit_price_vnd")
+        if isinstance(unit, (int, float)):
+            return ("total", int(unit) * qty * (100 - _pct_for(disc, question)) // 100 + _ship_cost(ship))
+
+    # --- fallback: incomplete trace -> learned catalog (e.g. agent distracted by injection) ---
+    ql = (question or "").lower()
+    product = next((k for k in _PROD_KEYS if k in ql), None)
+    with _LEARN_LOCK:
+        price = _CAT.get(product)
+        stk = dict(_STK.get(product) or {})
+    if product is None or price is None:
         return None
-    subtotal = int(unit) * qty
-    pct = 0
-    if isinstance(disc, dict) and disc.get("valid"):
-        try:
-            pct = int(disc.get("percent", 0))
-        except (TypeError, ValueError):
-            pct = 0
-    discounted = subtotal * (100 - pct) // 100
-    shipping = int(ship["cost_vnd"]) if isinstance(ship, dict) and isinstance(ship.get("cost_vnd"), (int, float)) else 0
-    return ("total", discounted + shipping)
+    if stk and not stk.get("in_stock", True):
+        return ("refuse", _R_OOS)
+    if stk and isinstance(stk.get("quantity"), int) and qty > stk["quantity"]:
+        return ("refuse", _R_OVER)
+    if ship_err:
+        return ("refuse", _R_NOSHIP)
+    return ("total", int(price) * qty * (100 - _pct_for(disc, question)) // 100 + _ship_cost(ship))
 
 
 def mitigate(call_next, question, config, context):

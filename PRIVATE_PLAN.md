@@ -33,7 +33,13 @@ git push
 
 ---
 
-## 2. PREP (làm ngay, chưa cần private sim) — 3 chỉnh sửa
+## ✅ TRẠNG THÁI (đã làm)
+- Prep Bước 2 **ĐÃ ÁP DỤNG** vào solution: findings 11 (có prompt_injection), `context_size=4`,
+  `_qty` hardening (test OK), `_INJECT_RE` mở rộng. selfcheck PASS (11 findings).
+- Private **SIM** đã có: `observathon-private-sim-linux-x64/` → bộ **80 câu**, qid `prv-001..prv-080`.
+- Private **SCORE** binary: **CHƯA có** (ra ~mốc 3.5h). Chưa có nó thì KHÔNG đo được headline private.
+
+## 2. PREP (ĐÃ XONG — để tham khảo) — 3 chỉnh sửa
 
 ### 2a. findings.json — thêm lại `prompt_injection` (→ 11 findings)
 Mở `solution/findings.json`, trong mảng `findings` thêm object này (trước dấu `]` cuối),
