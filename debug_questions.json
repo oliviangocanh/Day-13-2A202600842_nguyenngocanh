@@ -1,0 +1,6 @@
+[
+  {"qid": "dbg-coupon", "question": "Mua 2 iPad voi coupon VIP20 giao Ha Noi - tong cong bao nhieu VND?", "spec": {}, "session": "dbg", "turn": 0},
+  {"qid": "dbg-plain", "question": "Mua 3 iPhone giao Hai Phong tinh tong tien giup minh.", "spec": {}, "session": "dbg", "turn": 1},
+  {"qid": "dbg-oos", "question": "Mua 1 AirPods giao Ha Noi?", "spec": {}, "session": "dbg", "turn": 2},
+  {"qid": "dbg-city", "question": "Mua 1 iPhone giao Da Lat?", "spec": {}, "session": "dbg", "turn": 3}
+]

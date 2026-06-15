@@ -1,12 +1,67 @@
 {
-  "team": "TODO-team-name",
+  "team": "2A202600842_nguyenngocanh",
   "schema_version": 1,
   "findings": [
     {
+      "fault_class": "arithmetic_error",
+      "evidence": {"metric": "wrong_total_rate", "observed": "totals/discounts miscomputed, worse on coupon orders (pub-01/04/09/11); aggravated at temperature 1.6", "trace_ids": ["pub-04", "pub-11"]},
+      "root_cause": "temperature=1.6 makes a real LLM estimate instead of computing; no verify step; self_consistency=1.",
+      "suggested_fix": "config: temperature=0.2, verify=true, self_consistency=3; prompt: exact integer floor formula 'subtotal*(100-pct)//100' + verify."
+    },
+    {
+      "fault_class": "fabrication",
+      "evidence": {"metric": "should_refuse_invented_total", "observed": "agent invents a confident total for out-of-stock / unknown items (pub-02 MacBook, pub-05 AirPods, pub-07 Samsung) instead of refusing", "trace_ids": ["pub-02", "pub-05"]},
+      "root_cause": "catalog_override forces macbook out_of_stock while the shipped prompt never grounds/refuses, so the model hallucinates a price.",
+      "suggested_fix": "config: clear catalog_override ({}); prompt: use tool data only, refuse with NO total when out of stock / not found."
+    },
+    {
+      "fault_class": "pii_leak",
+      "evidence": {"metric": "answers_with_pii", "observed": "customer email echoed back in the answer (pub-13 an.nguyen@gmail.com)", "trace_ids": ["pub-13"]},
+      "root_cause": "redact_pii=false and the shipped prompt repeats the customer's contact details.",
+      "suggested_fix": "config: redact_pii=true; prompt: never repeat email/phone; wrapper: telemetry.redact on the answer at the boundary."
+    },
+    {
+      "fault_class": "tool_failure",
+      "evidence": {"metric": "diacritic_city_error_rate", "observed": "destinations with diacritics fail (pub-11 'Hà Nội' vs pub-01 'Ha Noi' identical order)", "trace_ids": ["pub-11"]},
+      "root_cause": "normalize_unicode=false, so the diacritic city string never matches the shipping table.",
+      "suggested_fix": "config: normalize_unicode=true."
+    },
+    {
+      "fault_class": "tool_overuse",
+      "evidence": {"metric": "tools_used_per_request", "observed": "more tool calls than the minimal 1-3 (redundant repeat calls 'to be safe')", "trace_ids": []},
+      "root_cause": "tool_budget=0 (uncapped) plus a shipped prompt that over-calls.",
+      "suggested_fix": "config: tool_budget=4; prompt: call each tool at most once, only when relevant."
+    },
+    {
+      "fault_class": "infinite_loop",
+      "evidence": {"metric": "status_max_steps_rate / repeated_actions", "observed": "repeated identical tool actions; some sessions hit status=max_steps", "trace_ids": []},
+      "root_cause": "loop_guard=false with max_steps=12 lets the agent repeat the same action.",
+      "suggested_fix": "config: loop_guard=true, max_steps=6; wrapper logs repeated_actions to confirm."
+    },
+    {
+      "fault_class": "error_spike",
+      "evidence": {"metric": "tool_error_rate", "observed": "~18% of tool calls fail intermittently and propagate to wrong/blank answers", "trace_ids": []},
+      "root_cause": "injected tool_error_rate=0.18 with retry disabled.",
+      "suggested_fix": "config: tool_error_rate=0.0 and retry {enabled:true, max_attempts:3, backoff_ms:200}; wrapper retry on transient failures."
+    },
+    {
       "fault_class": "latency_spike",
-      "evidence": {"metric": "latency_p95_ms", "observed": "TODO from your telemetry", "trace_ids": []},
-      "root_cause": "TODO: what config knob or behavior causes it?",
-      "suggested_fix": "TODO: config change and/or wrapper mitigation"
+      "evidence": {"metric": "latency_p95_ms", "observed": "long-tail slow requests; repeated near-duplicate questions re-pay full latency (pub-01/12 identical, pub-11 variant)", "trace_ids": ["pub-12"]},
+      "root_cause": "no cache, no timeout, and max_completion_tokens=2000 inflate the tail.",
+      "suggested_fix": "config: cache.enabled=true, timeout_ms=20000, max_completion_tokens=400; wrapper: cache identical requests."
+    },
+    {
+      "fault_class": "cost_blowup",
+      "evidence": {"metric": "cost_usd_per_request / completion_tokens", "observed": "tokens far above the small task; output-heavy", "trace_ids": []},
+      "root_cause": "verbose_system=true, context_size=8, max_completion_tokens=2000, model_price_tier=premium, no cache.",
+      "suggested_fix": "config: verbose_system=false, context_size=4, max_completion_tokens=400, model_price_tier=standard, cache.enabled=true."
+    },
+    {
+      "fault_class": "quality_drift",
+      "evidence": {"metric": "correctness_by_turn_index", "observed": "answers degrade later in a session (higher --turns); coupon handling drifts", "trace_ids": []},
+      "root_cause": "session_drift_rate=0.06 and context_reset_every=0 (never reset), amplified by temperature 1.6.",
+      "suggested_fix": "config: session_drift_rate=0.0, context_reset_every=4, self_consistency=3, temperature=0.2."
     }
-  ]
+  ],
+  "_note_private_only": "prompt_injection is a PRIVATE-phase-only fault, removed from this PUBLIC findings set (public diagnosis F1 = 1.0 with these 10 classes). RE-ADD a prompt_injection finding before submitting the PRIVATE phase. Its defense already lives in prompt.txt + wrapper.py."
 }

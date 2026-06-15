@@ -1,0 +1,57 @@
+{
+  "answer": "Tong cong: 72850000 VND",
+  "status": "ok",
+  "steps": 1,
+  "trace": [
+    {
+      "step": 1,
+      "action": "check_stock({'item_name': 'iPad'})",
+      "tool": "check_stock",
+      "observation": {
+        "item": "ipad",
+        "found": true,
+        "in_stock": true,
+        "quantity": 7,
+        "unit_price_vnd": 18000000,
+        "weight_kg": 0.45
+      }
+    },
+    {
+      "step": 1,
+      "action": "get_discount({'coupon_code': 'VIP20'})",
+      "tool": "get_discount",
+      "observation": {
+        "code": "VIP20",
+        "valid": true,
+        "percent": 20
+      }
+    },
+    {
+      "step": 1,
+      "action": "calc_shipping({'weight_kg': 2, 'destination': 'Ha Noi'})",
+      "tool": "calc_shipping",
+      "observation": {
+        "destination": "ha noi",
+        "weight_kg": 2.0,
+        "cost_vnd": 35000
+      }
+    }
+  ],
+  "meta": {
+    "model": "gpt-5.4-nano",
+    "provider": "openai",
+    "latency_ms": 5051,
+    "usage": {
+      "prompt_tokens": 15816,
+      "completion_tokens": 252,
+      "total_tokens": 16068
+    },
+    "session_id": "dbg",
+    "turn_index": 0,
+    "tools_used": [
+      "check_stock",
+      "get_discount",
+      "calc_shipping"
+    ]
+  }
+}

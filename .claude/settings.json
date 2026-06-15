@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wsl.exe --install -d Ubuntu-24.04 --no-launch)",
+      "Bash(wsl.exe -d Ubuntu-24.04 -u root -- bash -c ' *)",
+      "Bash(wsl.exe -d Ubuntu-24.04 -u root -- bash /mnt/d/VIN_UNI/day13/runsim.sh)",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash /mnt/d/VIN_UNI/day13/runsim.sh)",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -c \"cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 harness/selfcheck.py 2>&1; echo '--- prompt.txt char count ---'; wc -c solution/prompt.txt\")",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -c \"cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 harness/selfcheck.py 2>&1 | tail -2; printf 'prompt.txt = '; wc -c < solution/prompt.txt\")",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -c \"cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 harness/selfcheck.py 2>&1 | tail -2; printf 'prompt.txt = '; wc -c < solution/prompt.txt; printf 'self_consistency = '; grep -o '\\\\\"self_consistency\\\\\": [0-9]' solution/config.json\")",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 harness/selfcheck.py 2>&1 | tail -2; echo -n \"prompt_chars=\"; wc -c < solution/prompt.txt; echo -n \"self_consistency=\"; grep -oE \"self_consistency.: [0-9]+\" solution/config.json')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 /mnt/d/VIN_UNI/day13/analyze.py run_output.json')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 harness/selfcheck.py 2>&1 | tail -1; python3 -c \"import json;c=json.load\\(open\\(\\\\\"solution/config.json\\\\\"\\)\\);print\\(\\\\\"self_consistency=\\\\\",c[\\\\\"self_consistency\\\\\"],\\\\\"| verify=\\\\\",c[\\\\\"verify\\\\\"],\\\\\"| temp=\\\\\",c[\\\\\"temperature\\\\\"]\\)\"')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 harness/selfcheck.py 2>&1 | tail -1 && grep -E \"self_consistency|verify|temperature\" solution/config.json')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 harness/selfcheck.py 2>&1 | tail -1 && echo -n \"prompt_chars=\" && wc -c < solution/prompt.txt')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && chmod +x observathon-public-score-linux-x64/observathon-score 2>/dev/null; ./observathon-public-score-linux-x64/observathon-score --help 2>&1 | head -40')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && ./observathon-public-score-linux-x64/observathon-score --run run_output.json --findings solution/findings.json --team 2A202600842_nguyenngocanh --out score.json 2>&1 | head -60; echo \"=== score.json ===\"; cat score.json 2>/dev/null')",
+      "Bash(cp solution/findings.json /tmp/findings_backup.json)",
+      "Bash(python3 -c ' *)",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash /mnt/d/VIN_UNI/day13/score_tune.sh)",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 harness/selfcheck.py 2>&1 | grep findings; ./observathon-public-score-linux-x64/observathon-score --run run_output.json --findings solution/findings.json --team 2A202600842_nguyenngocanh --out score.json 2>&1 | grep -E \"diagnosis F1|HEADLINE\"')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 test_recompute.py && echo \"--- selfcheck ---\" && python3 harness/selfcheck.py 2>&1 | tail -3')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 harness/selfcheck.py')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 /mnt/d/VIN_UNI/day13/diag.py run_output.json')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 harness/selfcheck.py 2>&1 | tail -1 && grep -E \"context_size|self_consistency\" solution/config.json')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash /mnt/d/VIN_UNI/day13/score_now.sh 2>$null)",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc \"cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && grep context_size solution/config.json\")",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && echo \"run_output: n=$\\(python3 -c \"import json;print\\(json.load\\(open\\(chr\\(34\\)+chr\\(114\\)+chr\\(117\\)+chr\\(110\\)+chr\\(95\\)+chr\\(111\\)+chr\\(117\\)+chr\\(116\\)+chr\\(112\\)+chr\\(117\\)+chr\\(116\\)+chr\\(46\\)+chr\\(106\\)+chr\\(115\\)+chr\\(111\\)+chr\\(110\\)+chr\\(34\\)\\)\\)[chr\\(110\\)]\\)\"\\)\"; ./observathon-public-score-linux-x64/observathon-score --run run_output.json --findings solution/findings.json --team 2A202600842_nguyenngocanh --out score.json 2>&1')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash /mnt/d/VIN_UNI/day13/fullscore.sh)",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && for i in 1 2 3; do ./observathon-public-score-linux-x64/observathon-score --run run_output.json --findings solution/findings.json --team t --out /tmp/s$i.json 2>&1 | grep -E \"correct |HEADLINE\"; echo \"---\"; done')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash /mnt/d/VIN_UNI/day13/determ.sh)",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 -c \"import json;c=json.load\\(open\\(chr\\(39\\).join\\([chr\\(114\\),chr\\(117\\),chr\\(110\\),chr\\(95\\),chr\\(111\\),chr\\(117\\),chr\\(116\\),chr\\(112\\),chr\\(117\\),chr\\(116\\),chr\\(46\\),chr\\(106\\),chr\\(115\\),chr\\(111\\),chr\\(110\\)]\\).replace\\(chr\\(39\\),chr\\(0\\)\\).join\\([]\\) or open\\(\\\\\"run_output.json\\\\\"\\)\\)[\\\\\"config_used\\\\\"];print\\(\\\\\"context_size=\\\\\",c[\\\\\"context_size\\\\\"],\\\\\"sc=\\\\\",c[\\\\\"self_consistency\\\\\"],\\\\\"prompt_chars=\\\\\",c.get\\(\\\\\"prompt_chars\\\\\"\\)\\)\"')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash -lc 'cd /mnt/d/VIN_UNI/day13/Day-13-2A202600842_nguyenngocanh && python3 /mnt/d/VIN_UNI/day13/cfgcheck.py')",
+      "PowerShell(wsl.exe -d Ubuntu-24.04 -u root -- bash /mnt/d/VIN_UNI/day13/finalize.sh)"
+    ],
+    "additionalDirectories": [
+      "d:\\VIN_UNI\\day13"
+    ]
+  }
+}

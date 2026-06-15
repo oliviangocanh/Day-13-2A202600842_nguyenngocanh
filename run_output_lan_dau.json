@@ -1,0 +1,228 @@
+{
+  "phase": "practice",
+  "n": 20,
+  "users": null,
+  "turns": null,
+  "config_used": {
+    "provider": "openai",
+    "model": "gpt-5.4-nano",
+    "model_price_tier": "premium",
+    "max_steps": 12,
+    "loop_guard": false,
+    "temperature": 1.6,
+    "context_size": 8,
+    "verbose_system": true,
+    "retry": {
+      "enabled": false,
+      "max_attempts": 1,
+      "backoff_ms": 0
+    },
+    "cache": {
+      "enabled": false
+    },
+    "normalize_unicode": false,
+    "redact_pii": false,
+    "session_drift_rate": 0.06,
+    "context_reset_every": 0,
+    "tool_error_rate": 0.18,
+    "catalog_override": {
+      "macbook": {
+        "in_stock": false
+      }
+    },
+    "planner": false,
+    "verify": false,
+    "self_consistency": 1,
+    "tool_budget": 0,
+    "prompt_chars": 399,
+    "custom_prompt": true
+  },
+  "results": [
+    {
+      "qid": "prac-001",
+      "question": "Mua 4 iPhone giao den Ha Noi, tong thanh toan bao nhieu?",
+      "answer": "Mình kiểm tra như sau:\n\n- **iPhone**: còn hàng, có thể mua (tồn kho **12** chiếc)\n- **Giá iPhone (đơn vị)**: **22,000,000 VND/chiếc**\n- Bạn mua **4 chiếc** ⇒ **Thành tiền sản phẩm** = 4 × 22,000,000 = **88,000,000 VND**\n\n- **Vận chuyển giao Hà Nội**:  \n  Theo cân nặng tổng dự kiến từ sản phẩm:\n  - iPhone ~ **0.5 kg/chiếc**\n  - 4 chiếc ⇒ **4 × 0.5 = 2.0 kg**\n  - Phí ship Hà Nội cho đơn hàng: **45,000 VND**\n\n✅ **Tổng thanh toán = 88,000,000 + 45,000 = 88,045,000 VND**",
+      "status": "ok",
+      "session": "prac-001",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:00.107783Z"
+    },
+    {
+      "qid": "prac-002",
+      "question": "Mua 4 MacBook dung ma SALE15, ship Hai Phong, tong thanh toan bao nhieu?",
+      "answer": "Mình kiểm tra thì **MacBook hiện đang không còn hàng** (hệ thống báo: *in_stock = false*), nên mình **không thể tính tổng thanh toán thực tế để giao** cho đơn của bạn được.\n\nNgoài ra, mã **SALE15** bạn nhập là **hợp lệ** (giảm **15%**), tuy nhiên do sản phẩm **chưa thể đặt/không giao được**, nên phần tính tổng tiền không áp dụng cho đơn hàng hiện tại.\n\n- Trạng thái: **Không thể giao MacBook cho đơn này vì chưa có hàng**\n- Mã giảm giá: **SALE15 = 15% (hợp lệ)**\n\n✅ Nếu bạn muốn, bạn cho mình hỏi bạn muốn mình kiểm tra giúp **sản phẩm MacBook nào cụ thể** (MacBook Air/Pro, màn bao nhiêu inch, chip M-series, dung lượng RAM/SSD) để mình xem **có biến thể nào còn hàng** không? Khi có đúng model còn hàng, mình sẽ tính ra **tổng tiền + phí ship về Hải Phòng** bằng VND chính xác.",
+      "status": "ok",
+      "session": "prac-002",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:00.109828Z"
+    },
+    {
+      "qid": "prac-003",
+      "question": "Mua 4 iPhone giao Hai Phong, tong thanh toan bao nhieu?",
+      "answer": "Hi bạn. Mình kiểm tra sản phẩm **iPhone** hiện **còn hàng**, giá niêm yết **22.000.000 VND/1 máy**.\n\n- Số lượng: **4 máy**\n- **Thành tiền hàng** = 4 × 22.000.000 = **88.000.000 VND**\n- Mỗi iPhone nặng khoảng **0,5 kg/máy** ⇒ tổng khối lượng **4 × 0,5 = 2,0 kg**\n- **Phí giao hàng Hai Phòng** cho khối lượng này: **43.000 VND**\n\n✅ **Tổng thanh toán** = **88.000.000 + 43.000 = 88.043.000 VND**",
+      "status": "ok",
+      "session": "prac-003",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:00.458658Z"
+    },
+    {
+      "qid": "prac-004",
+      "question": "Mua 5 AirPods voi coupon VIP20 tinh tong tien giup minh.",
+      "answer": "Mình kiểm tra tồn kho hiện **AirPods hiện không còn hàng** (số lượng 0), nên **không thể đặt mua 5 chiếc** ngay được. Vì vậy mình cũng **chưa thể tính tổng tiền** sau khi áp mã **VIP20** và **phí ship**.\n\nNếu bạn muốn, bạn cho mình biết:\n1) Bạn muốn đổi sang **mẫu tai nghe/phiên bản khác còn hàng** không? (tên/model cụ thể)\n2) Hoặc bạn muốn mình giữ đơn và **báo khi có hàng lại**?\n\nChỉ cần bạn cung cấp lựa chọn thay thế, mình sẽ tính ngay tổng (kèm **VIP20** + **shipping**) ra **VND** cho bạn.",
+      "status": "ok",
+      "session": "prac-004",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:00.529604Z"
+    },
+    {
+      "qid": "prac-005",
+      "question": "Mua 2 iPad voi coupon VIP20 giao den hà nội - tong cong bao nhieu VND?",
+      "answer": "Hiện tại mình **không thể tính tổng chính xác** vì hệ thống kiểm tra kho/giảm giá vận hành lỗi:\n\n- **Không kiểm tra được giá & số lượng iPad** (lỗi “upstream_unavailable”).\n- **Không xác thực được mã coupon VIP20** để lấy % giảm.\n- **Vận chuyển đến Hà Nội** cũng không tính được vì điều kiện trung gian (ví dụ trọng lượng/giá từ bước kiểm tra iPad) chưa có (lỗi “destination_not_served”).\n\n✅ Để bạn được báo **tổng chính xác bằng VND**, bạn cho mình xin thêm 2 thông tin:\n1) Bạn định mua **iPad phiên bản nào** (ví dụ: iPad 10.9 inch / Air / Pro, dung lượng 64/256GB…) hoặc gửi **tên sản phẩm/iPad cụ thể** trên shop.\n2) Bạn cần loại **Wi‑Fi hay Cellular** (nếu có tuỳ chọn).\n\nNgay khi bạn gửi đúng mẫu iPad, mình sẽ kiểm tra **giá x2**, áp **VIP20** và tính **phí ship giao Hà Nội**, rồi trả bạn **Tổng cộng: … VND**.",
+      "status": "ok",
+      "session": "prac-005",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:00.621508Z"
+    },
+    {
+      "qid": "prac-006",
+      "question": "Mua 3 iPad dung ma VIP20 giao hà nội, tong thanh toan bao nhieu?",
+      "answer": "Mình tính tổng cho đơn **mua 3 iPad** và áp **mã VIP20** giao **Hà Nội** như sau:\n\n## 1) Kiểm tra iPad\n- Tình trạng: **còn hàng (số lượng 7)**\n- Đơn giá iPad: **18.000.000 VND/1 cái**\n- Số lượng mua: **3 cái**\n→ **Tạm tính:** 3 × 18.000.000 = **54.000.000 VND**\n\n## 2) Áp dụng mã giảm giá VIP20\n- VIP20 hợp lệ: **giảm 20%**\n\n→ **Tiền giảm:** 54.000.000 × 20% = **10.800.000 VND**  \n→ **Sau giảm:** 54.000.000 − 10.800.000 = **43.200.000 VND**\n\n## 3) Phí giao hàng (gửi Hà Nội)\n- Trọng lượng mỗi iPad: **0,45 kg**\n- Tổng trọng lượng: 3 × 0,45 = **1,35 kg**\n- Hệ thống báo **không phục vụ giao Hà Nội** cho lựa chọn giao hàng này (destination_not_served)\n→ Vì vậy **không tính được phí ship**, nên **không thể chốt “tổng thanh toán” cuối cùng** theo đúng điều kiện bạn đưa ra.\n\n---\n\n### Kết quả hiện có\n- **Giá sau giảm (chưa tính ship): 43.200.000 VND**\n\n**Bạn cho mình xin 1 địa chỉ/tỉnh-thành giao khác mà shop hỗ trợ**, hoặc bạn muốn giao đến **quận/huyện** cụ thể ở Hà Nội thì cho mình thông tin để mình kiểm tra lại phương án giao và tính tổng chính xác nhé.",
+      "status": "ok",
+      "session": "prac-006",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:00.664558Z"
+    },
+    {
+      "qid": "prac-007",
+      "question": "Mua 1 MacBook, ship Da Lat, tong thanh toan bao nhieu?",
+      "answer": "Hi bạn, hiện **MacBook đang được cập nhật là “không đặt được” trong kho (in_stock: false)** nên mình **không thể chốt tổng thành tiền** và **tính phí ship về Đà Lạt** cho đơn này ngay lúc này.\n\n- Thông tin mình nhận được:  \n  - MacBook: **đơn giá 35.000.000 VND** (theo hệ thống),  \n  - Trọng lượng: **~1,6 kg**,  \n  - Tình trạng: **hiện không đặt được**.\n\nBạn muốn mình kiểm tra lại bằng mẫu cụ thể không?\n- MacBook **Air hay Pro**? Chip (M1/M2/M3)? **Ram/SSD** bao nhiêu?\n- Nếu bạn cho mình thông tin cấu hình, mình sẽ **kiểm tra lại tình trạng đặt hàng** và tính **tổng: giá + phí ship Đà Lạt** chính xác theo đúng sản phẩm.",
+      "status": "ok",
+      "session": "prac-007",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:00.831504Z"
+    },
+    {
+      "qid": "prac-008",
+      "question": "Mua 2 MacBook dung ma EXPIRED giao Hai Phong, tong thanh toan bao nhieu?",
+      "answer": "Mình kiểm tra thì **MacBook hiện không còn hàng để đặt ngay** (in_stock: **false**). Vì vậy **không thể tính tổng thanh toán/giá sau giảm và phí giao** cho yêu cầu **mua 2 chiếc**.\n\nKết quả kiểm tra liên quan:\n- **MacBook**: *đang hết hàng* (có ghi quantity trong hệ thống, nhưng trạng thái mua bán hiện không khả dụng)\n- **Mã giảm “EXPIRED”**: *không hợp lệ / đã hết hạn* → giảm **0%**\n\n✅ Bạn cho mình xin 1 trong 2 thông tin để mình báo tổng chính xác ngay khi có thể:\n1) Bạn muốn mình tính cho **model MacBook cụ thể** (Air/Pro, M1/M2/M3, RAM/SSD) thay vì “MacBook” chung, hoặc  \n2) Bạn xác nhận **tạm đặt/giao khi có hàng** (nếu shop có hình thức chờ).  \n\nNếu bạn gửi model cụ thể và địa chỉ nhận tại **Hải Phòng**, mình sẽ check tồn từng SKU và tính tổng cuối cùng (gồm giảm giá + phí ship) cho bạn.",
+      "status": "ok",
+      "session": "prac-008",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:00.866777Z"
+    },
+    {
+      "qid": "prac-009",
+      "question": "Mua 2 AirPods voi coupon SALE15 giao Hai Phong - tong cong bao nhieu VND?",
+      "answer": "Mình kiểm tra giúp bạn rồi, hiện **AirPods đang hết hàng** (còn **0 chiếc**, không thể đặt mua 2 chiếc được) nên mình **chưa thể tính tổng tiền thanh toán** cho đơn của bạn.\n\nTuy nhiên:\n- Coupon **SALE15** là **hợp lệ**, được **giảm 15%**.\n- **Giá niêm yết AirPods**: **4.500.000 VND/chiếc**.\n- Giao **Hai Phong** và bạn dự định mua **2 chiếc** ⇒ nếu có hàng mình sẽ tính:\n  - Tiền hàng = 2 × giá\n  - Giảm SALE15 = 15% trên tiền hàng\n  - Cộng phí ship theo khối lượng\n\n➡️ Bạn xác nhận giúp mình:\n1) Bạn muốn chờ AirPods về hàng không, hay mình gợi ý **mẫu tương đương** khác còn sẵn?\n2) Nếu bạn muốn gợi ý mẫu khác, bạn cho mình biết nhu cầu (AirPods 2/3/Pro hay bản thường, tai trần hay có chống ồn) nhé.",
+      "status": "ok",
+      "session": "prac-009",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:00.893316Z"
+    },
+    {
+      "qid": "prac-010",
+      "question": "Shop con MacBook khong va gia bao nhieu VND? goi minh qua sdt 0901234567",
+      "answer": "Dạ hiện **MacBook chưa có sẵn để đặt** (tồn kho: *không khả dụng*, số lượng hệ thống đang ghi là chưa thể bán).\n\n- **Trạng thái:** Hết/không đặt được ngay  \n- **Giá niêm yết tham khảo (nếu có hàng về):** **35.000.000 VND**/chiếc  \n- **Khối lượng (ước tính):** ~**1,6 kg**/chiếc\n\nMình có thể:\n1) Gửi bạn **phiên bản MacBook** nào đang bán (Air/Pro, chip M1/M2/M3, RAM/SSD) để báo **giá đúng từng cấu hình**, hoặc  \n2) Bạn cho mình biết **nhu cầu** (học tập/làm đồ họa/lập trình) mình gợi ý cấu hình phù hợp.\n\nAnh/chị cho em hỏi giúp: anh muốn **MacBook Air hay Pro**, và tầm **RAM/SSD** khoảng bao nhiêu?  \n(Số **0901234567** mình nhận rồi; khi bạn chốt cấu hình/em xác nhận kho bên em sẽ nhắn/cập nhật sớm cho mình.) (lien he: 0901234567)",
+      "status": "ok",
+      "session": "prac-010",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:01.006772Z"
+    },
+    {
+      "qid": "prac-011",
+      "question": "Mua 1 samsung ap dung ma VIP20 giao TP HCM, tong thanh toan bao nhieu?",
+      "answer": "Mình chưa thể tính **tổng thanh toán** cho đơn của bạn vì có 2 vấn đề cần kiểm tra:\n\n1) **Không tìm thấy sản phẩm “samsung ap” trong hệ thống**  \n- Bạn cho mình xin **tên model/phiên bản cụ thể** (vd: “Samsung AP X”, “Samsung AP… 4G/5G…”, hoặc link/số model trên shop) để mình kiểm tra **giá + khối lượng**.\n\n2) **Không lấy được mã giảm giá “VIP20”** (hệ thống báo không truy xuất được hiệu lực)  \n- Bạn thử xác nhận giúp mình **mã đang dùng đúng dạng VIP20** không, và nếu có **giới hạn/điều kiện** (đơn tối thiểu, loại hàng áp dụng) thì bạn gửi kèm.\n\n👉 Bạn trả lời giúp mình 1 trong các cách sau nhé:  \n- Gửi **link sản phẩm** “Samsung ap” bạn định mua, hoặc  \n- Gửi **model/số mã** đúng của sản phẩm, và cho biết có áp dụng được cho **samsung ap** không.\n\nNgay khi có thông tin đó, mình sẽ tính chính xác:  \n**Tiền sản phẩm (sau giảm VIP20) + phí ship giao TP HCM = Tổng thanh toán (VND)**.",
+      "status": "ok",
+      "session": "prac-011",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:01.171915Z"
+    },
+    {
+      "qid": "prac-012",
+      "question": "Mua 2 iPhone voi coupon VIP20, ship Ha Noi, tong thanh toan bao nhieu?",
+      "answer": null,
+      "status": "max_steps",
+      "session": "prac-012",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:01.210231Z"
+    },
+    {
+      "qid": "prac-013",
+      "question": "Shop con iPhone khong va gia bao nhieu VND? goi minh qua sdt 0938222111",
+      "answer": "Mình kiểm tra giúp bạn được, nhưng hiện tại hệ thống **đang lỗi/upstream không sẵn sàng** nên mình chưa thể truy xuất chính xác **iPhone còn hàng không** và **giá bao nhiêu VND** ngay lúc này.\n\nBạn cho mình xin thêm 2 thông tin để mình báo đúng model khi hệ thống hoạt động lại (hoặc bạn trả lời luôn dưới đây cũng được):\n1) Bạn muốn **iPhone dòng nào**: iPhone 13 / 14 / 15… (hoặc “bất kỳ iPhone nào bán được”)  \n2) Bạn muốn **bản bao nhiêu GB** (128/256/512) và **màu** (nếu cần)\n\n📌 Về yêu cầu “gọi qua 0938222111”: hiện tại mình **không thể trực tiếp gọi điện** từ đây. Nhưng bạn cứ nhắn thông tin nhu cầu ở đây, mình sẽ báo giá/tồn kho/tổng chi phí (kèm phí ship) cho bạn. (lien he: 0938222111)",
+      "status": "ok",
+      "session": "prac-013",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:01.371369Z"
+    },
+    {
+      "qid": "prac-014",
+      "question": "Mua 3 iPhone ap dung ma EXPIRED, ship TP HCM tinh tong tien giup minh.",
+      "answer": null,
+      "status": "max_steps",
+      "session": "prac-014",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:01.459039Z"
+    },
+    {
+      "qid": "prac-015",
+      "question": "Mua 4 iPhone ap dung ma VIP20 giao đà nẵng tinh tong tien giup minh.",
+      "answer": null,
+      "status": "max_steps",
+      "session": "prac-015",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:02.093365Z"
+    },
+    {
+      "qid": "prac-016",
+      "question": "Mua 1 nokia voi coupon VIP20, ship Hai Phong, tong thanh toan bao nhieu?",
+      "answer": "Mình kiểm tra nhanh thì **mục “nokia” không tìm thấy trong hệ thống hàng** (không có dữ liệu sản phẩm), nên **chưa thể tính được tổng tiền** (giá sản phẩm + giảm giá VIP20 + phí ship Hải Phòng).\n\nĐể mình tính chính xác tổng thanh toán, bạn vui lòng gửi giúp mình **một trong các thông tin sau**:\n1) Tên đúng sản phẩm Nokia (ví dụ: *Nokia 105*, *Nokia C01 Plus*,…)\n2) Hoặc mã/đường link sản phẩm bạn định mua\n\n**Coupon:** VIP20 đang **hợp lệ** và được giảm **20%**.  \nChỉ còn thiếu **giá của đúng sản phẩm Nokia** để mình cộng thêm **phí vận chuyển về Hải Phòng** và ra **tổng thanh toán VND**.",
+      "status": "ok",
+      "session": "prac-016",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:02.112512Z"
+    },
+    {
+      "qid": "prac-017",
+      "question": "Mua 2 iPhone giao Da Lat tinh tong tien giup minh.",
+      "answer": "Mình kiểm tra giúp bạn nhé:\n\n1) **Tồn kho iPhone**\n- Hiện **có hàng**\n- **Số lượng:** 12\n- **Giá 1 máy:** **22.000.000 VND**\n- Bạn mua **2 máy** → **Thành tiền hàng = 2 × 22.000.000 = 44.000.000 VND**\n  \n2) **Vận chuyển giao Đà Lạt**\n- Khi tính phí ship cho điểm **“Da Lat”** thì hệ thống trả về lỗi: **destination_not_served** (tức khu vực/đích giao mà hệ thống không nhận diện được theo địa danh bạn nhập).\n- Mình đã thử theo mã **Lâm Đồng** (vùng Đà Lạt) nhưng vẫn chưa lấy được phí ship → hệ thống vẫn báo **destination_not_served**, nên **chưa thể chốt tổng tiền** được phần vận chuyển.\n\n✅ **Tạm tính (chỉ tiền hàng, chưa có phí ship):** **44.000.000 VND**\n\nĐể mình tính **tổng đúng chuẩn (bao gồm phí ship)**, bạn cho mình xin thêm 1 thông tin:\n- Bạn vui lòng nhập **đúng tỉnh/thành + quận/huyện** (ví dụ: *“Phường …, Thành phố Đà Lạt, Tỉnh Lâm Đồng”*)  \nHoặc bạn cho mình **mã bưu chính (nếu có)** để hệ thống xác định điểm giao.",
+      "status": "ok",
+      "session": "prac-017",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:02.881759Z"
+    },
+    {
+      "qid": "prac-018",
+      "question": "Mua 2 MacBook dung ma EXPIRED giao Ha Noi - tong cong bao nhieu VND?",
+      "answer": "Mã giảm giá **EXPIRED** đang **không hợp lệ/đã hết hạn** (discount = **0%**), nên không được giảm thêm.\n\nNgoài ra, hiện tại **MacBook chưa có thể đặt ngay (in_stock = false)**. Dù kho còn tổng **4 chiếc**, nhưng hệ thống đang **không cho phép đặt** theo nhu cầu hiện tại, vì vậy mình **không thể tính “tổng có thể mua” để ra số tiền cuối cùng** cho đơn này.\n\nBạn vui lòng cho mình xin 1 trong 2 thông tin để mình kiểm tra lại đúng sản phẩm và báo tổng chính xác:\n1) Bạn muốn mua **MacBook Air hay MacBook Pro**, **kích thước bao nhiêu inch** và **RAM/SSD**?\n2) Hoặc bạn xác nhận bạn có thể đặt loại “MacBook” theo đúng hệ thống (nếu còn tùy chọn hiển thị).",
+      "status": "ok",
+      "session": "prac-018",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:02.988005Z"
+    },
+    {
+      "qid": "prac-019",
+      "question": "Mua 4 MacBook voi coupon VIP20 giao Hai Phong, tong thanh toan bao nhieu?",
+      "answer": "Mình kiểm tra thì **MacBook hiện đang hết hàng (in_stock = false)** nên **không thể tính và chốt tổng thanh toán cho 4 sản phẩm** tại thời điểm này.\n\nTuy nhiên để bạn tham khảo cấu phần chi phí nếu hàng có lại:\n- Giá niêm yết dự kiến: **35.000.000 VND / MacBook**\n- Giảm giá coupon **VIP20**: **20%**\n- Tính nhanh tiền hàng cho 4 máy (nếu mua được):  \n  **Tiền trước giảm = 4 × 35.000.000 = 140.000.000 VND**  \n  **Tiền sau giảm = 140.000.000 × (1 - 20%) = 112.000.000 VND**  \n- Chi phí giao Hai Phòng sẽ được tính theo **tổng khối lượng** (mỗi máy ~ **1,6 kg** → 4 máy ~ **6,4 kg**)—phần này mình chưa thể chạy vì không mua được hiện tại.\n\n✅ **Kết luận hiện tại:** Không tính được “tong thanh toan” vì **MacBook không sẵn hàng**.  \nBạn cho mình hỏi bạn muốn đợi hàng về hay chuyển sang mẫu MacBook khác (hãng/ram/ssd) để mình kiểm tra thay thế?",
+      "status": "ok",
+      "session": "prac-019",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:03.128215Z"
+    },
+    {
+      "qid": "prac-020",
+      "question": "Mua 3 iPad giao den TP HCM tinh tong tien giup minh.",
+      "answer": "Dạ mình đã kiểm tra giúp bạn:\n\n- **Có hàng**: iPad (còn đủ để mua 3)\n- **Đơn giá iPad**: **18.000.000 VND/cái**\n- **Số lượng**: **3 cái**\n- **Tổng tiền hàng** = 3 × 18.000.000 = **54.000.000 VND**\n\nVận chuyển:\n- **Tổng khối lượng ước tính**: 3 × 0,45 kg = **1,35 kg**\n- **Phí ship giao TP HCM**: **26.750 VND**\n\n✅ **Tổng cộng phải thanh toán**: **54.026.750 VND**",
+      "status": "ok",
+      "session": "prac-020",
+      "turn": 0,
+      "ts": "2026-06-13T00:00:03.160283Z"
+    }
+  ],
+  "sealed": {
+    "alg": "HMAC-SHA256",
+    "note": "binary-measured metrics for scoring; build your own observability in wrapper.py",
+    "data": "W3siZXJyb3IiOiBudWxsLCAibGF0ZW5jeV9tcyI6IDg0NTQsICJtb2RlbCI6ICJncHQtNS40LW5hbm8iLCAicGlpIjogZmFsc2UsICJwcm92aWRlciI6ICJvcGVuYWkiLCAic3RlcHMiOiAxLCAidG9vbHNfdXNlZCI6IFsiY2hlY2tfc3RvY2siLCAiY2FsY19zaGlwcGluZyJdLCAidXNhZ2UiOiB7ImNvbXBsZXRpb25fdG9rZW5zIjogMjQ5LCAicHJvbXB0X3Rva2VucyI6IDcyMTYsICJ0b3RhbF90b2tlbnMiOiA3NDY1fX0sIHsiZXJyb3IiOiBudWxsLCAibGF0ZW5jeV9tcyI6IDg2NTUsICJtb2RlbCI6ICJncHQtNS40LW5hbm8iLCAicGlpIjogZmFsc2UsICJwcm92aWRlciI6ICJvcGVuYWkiLCAic3RlcHMiOiAxLCAidG9vbHNfdXNlZCI6IFsiY2hlY2tfc3RvY2siLCAiZ2V0X2Rpc2NvdW50Il0sICJ1c2FnZSI6IHsiY29tcGxldGlvbl90b2tlbnMiOiAyODYsICJwcm9tcHRfdG9rZW5zIjogNzIwMCwgInRvdGFsX3Rva2VucyI6IDc0ODZ9fSwgeyJlcnJvciI6IG51bGwsICJsYXRlbmN5X21zIjogMjIwMDgsICJtb2RlbCI6ICJncHQtNS40LW5hbm8iLCAicGlpIjogZmFsc2UsICJwcm92aWRlciI6ICJvcGVuYWkiLCAic3RlcHMiOiA3LCAidG9vbHNfdXNlZCI6IFsiY2hlY2tfc3RvY2siLCAiY2FsY19zaGlwcGluZyIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayJdLCAidXNhZ2UiOiB7ImNvbXBsZXRpb25fdG9rZW5zIjogMzcxLCAicHJvbXB0X3Rva2VucyI6IDQzODE2LCAidG90YWxfdG9rZW5zIjogNDQxODd9fSwgeyJlcnJvciI6IG51bGwsICJsYXRlbmN5X21zIjogNTQ5NywgIm1vZGVsIjogImdwdC01LjQtbmFubyIsICJwaWkiOiBmYWxzZSwgInByb3ZpZGVyIjogIm9wZW5haSIsICJzdGVwcyI6IDEsICJ0b29sc191c2VkIjogWyJjaGVja19zdG9jayJdLCAidXNhZ2UiOiB7ImNvbXBsZXRpb25fdG9rZW5zIjogMTc3LCAicHJvbXB0X3Rva2VucyI6IDY2NjQsICJ0b3RhbF90b2tlbnMiOiA2ODQxfX0sIHsiZXJyb3IiOiBudWxsLCAibGF0ZW5jeV9tcyI6IDczMzgsICJtb2RlbCI6ICJncHQtNS40LW5hbm8iLCAicGlpIjogZmFsc2UsICJwcm92aWRlciI6ICJvcGVuYWkiLCAic3RlcHMiOiAxLCAidG9vbHNfdXNlZCI6IFsiY2hlY2tfc3RvY2siLCAiZ2V0X2Rpc2NvdW50IiwgImNhbGNfc2hpcHBpbmciXSwgInVzYWdlIjogeyJjb21wbGV0aW9uX3Rva2VucyI6IDMyOSwgInByb21wdF90b2tlbnMiOiA3MzA0LCAidG90YWxfdG9rZW5zIjogNzYzM319LCB7ImVycm9yIjogbnVsbCwgImxhdGVuY3lfbXMiOiA5MjMxLCAibW9kZWwiOiAiZ3B0LTUuNC1uYW5vIiwgInBpaSI6IGZhbHNlLCAicHJvdmlkZXIiOiAib3BlbmFpIiwgInN0ZXBzIjogMiwgInRvb2xzX3VzZWQiOiBbImNoZWNrX3N0b2NrIiwgImdldF9kaXNjb3VudCIsICJjYWxjX3NoaXBwaW5nIl0sICJ1c2FnZSI6IHsiY29tcGxldGlvbl90b2tlbnMiOiA0NzEsICJwcm9tcHRfdG9rZW5zIjogMTE3NDQsICJ0b3RhbF90b2tlbnMiOiAxMjIxNX19LCB7ImVycm9yIjogbnVsbCwgImxhdGVuY3lfbXMiOiA2MjAyLCAibW9kZWwiOiAiZ3B0LTUuNC1uYW5vIiwgInBpaSI6IGZhbHNlLCAicHJvdmlkZXIiOiAib3BlbmFpIiwgInN0ZXBzIjogMSwgInRvb2xzX3VzZWQiOiBbImNoZWNrX3N0b2NrIl0sICJ1c2FnZSI6IHsiY29tcGxldGlvbl90b2tlbnMiOiAyMjQsICJwcm9tcHRfdG9rZW5zIjogNjY5NiwgInRvdGFsX3Rva2VucyI6IDY5MjB9fSwgeyJlcnJvciI6IG51bGwsICJsYXRlbmN5X21zIjogNzM4MCwgIm1vZGVsIjogImdwdC01LjQtbmFubyIsICJwaWkiOiBmYWxzZSwgInByb3ZpZGVyIjogIm9wZW5haSIsICJzdGVwcyI6IDEsICJ0b29sc191c2VkIjogWyJjaGVja19zdG9jayIsICJnZXRfZGlzY291bnQiXSwgInVzYWdlIjogeyJjb21wbGV0aW9uX3Rva2VucyI6IDMwNCwgInByb21wdF90b2tlbnMiOiA3MTg0LCAidG90YWxfdG9rZW5zIjogNzQ4OH19LCB7ImVycm9yIjogbnVsbCwgImxhdGVuY3lfbXMiOiA3MjU0LCAibW9kZWwiOiAiZ3B0LTUuNC1uYW5vIiwgInBpaSI6IGZhbHNlLCAicHJvdmlkZXIiOiAib3BlbmFpIiwgInN0ZXBzIjogMSwgInRvb2xzX3VzZWQiOiBbImNoZWNrX3N0b2NrIiwgImdldF9kaXNjb3VudCJdLCAidXNhZ2UiOiB7ImNvbXBsZXRpb25fdG9rZW5zIjogMjkyLCAicHJvbXB0X3Rva2VucyI6IDcxODQsICJ0b3RhbF90b2tlbnMiOiA3NDc2fX0sIHsiZXJyb3IiOiBudWxsLCAibGF0ZW5jeV9tcyI6IDY1NzcsICJtb2RlbCI6ICJncHQtNS40LW5hbm8iLCAicGlpIjogdHJ1ZSwgInByb3ZpZGVyIjogIm9wZW5haSIsICJzdGVwcyI6IDEsICJ0b29sc191c2VkIjogWyJjaGVja19zdG9jayJdLCAidXNhZ2UiOiB7ImNvbXBsZXRpb25fdG9rZW5zIjogMjcyLCAicHJvbXB0X3Rva2VucyI6IDY3OTIsICJ0b3RhbF90b2tlbnMiOiA3MDY0fX0sIHsiZXJyb3IiOiBudWxsLCAibGF0ZW5jeV9tcyI6IDUwMTAsICJtb2RlbCI6ICJncHQtNS40LW5hbm8iLCAicGlpIjogZmFsc2UsICJwcm92aWRlciI6ICJvcGVuYWkiLCAic3RlcHMiOiAxLCAidG9vbHNfdXNlZCI6IFsiY2hlY2tfc3RvY2siLCAiZ2V0X2Rpc2NvdW50Il0sICJ1c2FnZSI6IHsiY29tcGxldGlvbl90b2tlbnMiOiAzMzYsICJwcm9tcHRfdG9rZW5zIjogNjk5MiwgInRvdGFsX3Rva2VucyI6IDczMjh9fSwgeyJlcnJvciI6IG51bGwsICJsYXRlbmN5X21zIjogMjEzNzIsICJtb2RlbCI6ICJncHQtNS40LW5hbm8iLCAicGlpIjogZmFsc2UsICJwcm92aWRlciI6ICJvcGVuYWkiLCAic3RlcHMiOiAxMiwgInRvb2xzX3VzZWQiOiBbImNoZWNrX3N0b2NrIiwgImdldF9kaXNjb3VudCIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayJdLCAidXNhZ2UiOiB7ImNvbXBsZXRpb25fdG9rZW5zIjogMjkwLCAicHJvbXB0X3Rva2VucyI6IDc5MTI4LCAidG90YWxfdG9rZW5zIjogNzk0MTh9fSwgeyJlcnJvciI6IG51bGwsICJsYXRlbmN5X21zIjogNDY0MSwgIm1vZGVsIjogImdwdC01LjQtbmFubyIsICJwaWkiOiB0cnVlLCAicHJvdmlkZXIiOiAib3BlbmFpIiwgInN0ZXBzIjogMSwgInRvb2xzX3VzZWQiOiBbImNoZWNrX3N0b2NrIl0sICJ1c2FnZSI6IHsiY29tcGxldGlvbl90b2tlbnMiOiAyMzcsICJwcm9tcHRfdG9rZW5zIjogNjU2MCwgInRvdGFsX3Rva2VucyI6IDY3OTd9fSwgeyJlcnJvciI6IG51bGwsICJsYXRlbmN5X21zIjogMjI1NDUsICJtb2RlbCI6ICJncHQtNS40LW5hbm8iLCAicGlpIjogZmFsc2UsICJwcm92aWRlciI6ICJvcGVuYWkiLCAic3RlcHMiOiAxMiwgInRvb2xzX3VzZWQiOiBbImNoZWNrX3N0b2NrIiwgImdldF9kaXNjb3VudCIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayIsICJjaGVja19zdG9jayJdLCAidXNhZ2UiOiB7ImNvbXBsZXRpb25fdG9rZW5zIjogMzI0LCAicHJvbXB0X3Rva2VucyI6IDc5MTI4LCAidG90YWxfdG9rZW5zIjogNzk0NTJ9fSwgeyJlcnJvciI6IG51bGwsICJsYXRlbmN5X21zIjogMjI2NDIsICJtb2RlbCI6ICJncHQtNS40LW5hbm8iLCAicGlpIjogZmFsc2UsICJwcm92aWRlciI6ICJvcGVuYWkiLCAic3RlcHMiOiAxMiwgInRvb2xzX3VzZWQiOiBbImNoZWNrX3N0b2NrIiwgImdldF9kaXNjb3VudCIsICJjYWxjX3NoaXBwaW5nIiwgImNoZWNrX3N0b2NrIiwgImNoZWNrX3N0b2NrIiwgImNoZWNrX3N0b2NrIiwgImNoZWNrX3N0b2NrIiwgImNoZWNrX3N0b2NrIiwgImNoZWNrX3N0b2NrIiwgImNoZWNrX3N0b2NrIiwgImNoZWNrX3N0b2NrIiwgImNoZWNrX3N0b2NrIiwgImNoZWNrX3N0b2NrIiwgImNoZWNrX3N0b2NrIl0sICJ1c2FnZSI6IHsiY29tcGxldGlvbl90b2tlbnMiOiAyODksICJwcm9tcHRfdG9rZW5zIjogODQwNzIsICJ0b3RhbF90b2tlbnMiOiA4NDM2MX19LCB7ImVycm9yIjogbnVsbCwgImxhdGVuY3lfbXMiOiA0NjM4LCAibW9kZWwiOiAiZ3B0LTUuNC1uYW5vIiwgInBpaSI6IGZhbHNlLCAicHJvdmlkZXIiOiAib3BlbmFpIiwgInN0ZXBzIjogMSwgInRvb2xzX3VzZWQiOiBbImNoZWNrX3N0b2NrIiwgImdldF9kaXNjb3VudCJdLCAidXNhZ2UiOiB7ImNvbXBsZXRpb25fdG9rZW5zIjogMjM3LCAicHJvbXB0X3Rva2VucyI6IDcwMDAsICJ0b3RhbF90b2tlbnMiOiA3MjM3fX0sIHsiZXJyb3IiOiBudWxsLCAibGF0ZW5jeV9tcyI6IDgwMDcsICJtb2RlbCI6ICJncHQtNS40LW5hbm8iLCAicGlpIjogZmFsc2UsICJwcm92aWRlciI6ICJvcGVuYWkiLCAic3RlcHMiOiAyLCAidG9vbHNfdXNlZCI6IFsiY2hlY2tfc3RvY2siLCAiY2FsY19zaGlwcGluZyIsICJjYWxjX3NoaXBwaW5nIl0sICJ1c2FnZSI6IHsiY29tcGxldGlvbl90b2tlbnMiOiA0MDAsICJwcm9tcHRfdG9rZW5zIjogMTE3NDQsICJ0b3RhbF90b2tlbnMiOiAxMjE0NH19LCB7ImVycm9yIjogbnVsbCwgImxhdGVuY3lfbXMiOiA0NDM3LCAibW9kZWwiOiAiZ3B0LTUuNC1uYW5vIiwgInBpaSI6IGZhbHNlLCAicHJvdmlkZXIiOiAib3BlbmFpIiwgInN0ZXBzIjogMSwgInRvb2xzX3VzZWQiOiBbImNoZWNrX3N0b2NrIiwgImdldF9kaXNjb3VudCJdLCAidXNhZ2UiOiB7ImNvbXBsZXRpb25fdG9rZW5zIjogMjUwLCAicHJvbXB0X3Rva2VucyI6IDcxNjgsICJ0b3RhbF90b2tlbnMiOiA3NDE4fX0sIHsiZXJyb3IiOiBudWxsLCAibGF0ZW5jeV9tcyI6IDU0MDIsICJtb2RlbCI6ICJncHQtNS40LW5hbm8iLCAicGlpIjogZmFsc2UsICJwcm92aWRlciI6ICJvcGVuYWkiLCAic3RlcHMiOiAxLCAidG9vbHNfdXNlZCI6IFsiY2hlY2tfc3RvY2siLCAiZ2V0X2Rpc2NvdW50Il0sICJ1c2FnZSI6IHsiY29tcGxldGlvbl90b2tlbnMiOiAzMzYsICJwcm9tcHRfdG9rZW5zIjogNzE4NCwgInRvdGFsX3Rva2VucyI6IDc1MjB9fSwgeyJlcnJvciI6IG51bGwsICJsYXRlbmN5X21zIjogODM0MCwgIm1vZGVsIjogImdwdC01LjQtbmFubyIsICJwaWkiOiBmYWxzZSwgInByb3ZpZGVyIjogIm9wZW5haSIsICJzdGVwcyI6IDIsICJ0b29sc191c2VkIjogWyJjaGVja19zdG9jayIsICJjYWxjX3NoaXBwaW5nIl0sICJ1c2FnZSI6IHsiY29tcGxldGlvbl90b2tlbnMiOiAyMDEsICJwcm9tcHRfdG9rZW5zIjogMTA4MjQsICJ0b3RhbF90b2tlbnMiOiAxMTAyNX19XQ==",
+    "sig": "25fb3cd4cb3a62a710652ed620b8f1724c061816b071865509a63aec6da55c31"
+  }
+}

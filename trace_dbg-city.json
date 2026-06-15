@@ -1,0 +1,46 @@
+{
+  "answer": "Xin lỗi, khu vực Da Lat hiện không phục vụ giao hàng.",
+  "status": "ok",
+  "steps": 2,
+  "trace": [
+    {
+      "step": 1,
+      "action": "check_stock({'item_name': 'iPhone'})",
+      "tool": "check_stock",
+      "observation": {
+        "item": "iphone",
+        "found": true,
+        "in_stock": true,
+        "quantity": 12,
+        "unit_price_vnd": 22000000,
+        "weight_kg": 0.5
+      }
+    },
+    {
+      "step": 2,
+      "action": "calc_shipping({'weight_kg': 0.5, 'destination': 'Da Lat'})",
+      "tool": "calc_shipping",
+      "observation": {
+        "destination": "Da Lat",
+        "error": "destination_not_served",
+        "cost_vnd": null
+      }
+    }
+  ],
+  "meta": {
+    "model": "gpt-5.4-nano",
+    "provider": "openai",
+    "latency_ms": 7042,
+    "usage": {
+      "prompt_tokens": 22656,
+      "completion_tokens": 185,
+      "total_tokens": 22841
+    },
+    "session_id": "dbg",
+    "turn_index": 3,
+    "tools_used": [
+      "check_stock",
+      "calc_shipping"
+    ]
+  }
+}
